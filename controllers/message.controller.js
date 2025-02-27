@@ -1,0 +1,59 @@
+const { sendResponse } = require('../utils/responseHandler');
+const joi = require('joi');
+
+const messageService = require('../services/message.service');
+
+const getMessageList = async (req, res) => {
+    try {
+        const messageListData = await messageService.getMessageList();
+        sendResponse(res, 200, 'Message list fetched successfully', messageListData);
+    } catch (e) {
+        sendResponse(res, 400, 'Fetching message list failed', e.message);
+    }
+}
+
+const getMessageInfo = async (req, res) => {
+    try {
+        const id = req.params.id;
+        if (!id) throw new Error('Bad Request');
+
+        const messageData = await messageService.getMessageInfo(id);
+        
+        sendResponse(res, 200, 'Message info fetched', messageData);
+    } catch (e) {
+        sendResponse(res, 400, 'Fetching message info failed', e.message);
+    }
+}
+
+const updateMessageToMarkRead = async (req, res) => {
+    try {
+        const body = req.body;
+        if (!body.id) throw new Error('Bad Request')
+
+        const messageUpdatedData = await messageService.updateMessageToMarkRead(body.id);
+        sendResponse(res, 200, 'Marked as read', messageUpdatedData);
+    } catch (e) {
+        console.log(e)
+        sendResponse(res, 400, 'Updating failed', e.message)
+    }
+}
+
+const deleteMessage = async (req, res) => {
+    try {
+        const body = req.body;
+
+        if (!('id' in body)) throw new Error('Bad Request');
+        const messageDeletedData = await messageService.deleteMessage(body);
+        sendResponse(res, 200, 'Message Deleted', messageDeletedData);
+    } catch (e) {
+        console.log(error)
+        sendResponse(res, 400, error.message, null);
+    }
+}
+
+module.exports = {
+    getMessageList,
+    updateMessageToMarkRead,
+    getMessageInfo,
+    deleteMessage
+}
