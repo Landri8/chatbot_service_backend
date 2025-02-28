@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { generateID, getFormattedDateYYYYMMDD } = require('../utils/commonUtil');
+const { generateID, getCurrentFormattedDate } = require('../utils/commonUtil');
 
 const messageSchema = new mongoose.Schema({
     id: {type: String, default: () =>  generateID('MSG'), unique: true},
@@ -12,7 +12,7 @@ const messageSchema = new mongoose.Schema({
     jobTitle: {type: String, required: true},
     jobDetails: {type: String, required: true},
     read: {type: Boolean, default: false},
-    createdAt: {type: String, default: () => getFormattedDateYYYYMMDD()},
+    createdAt: {type: String, default: () => getCurrentFormattedDate()},
 });
 
 const Message = mongoose.model('Message', messageSchema);

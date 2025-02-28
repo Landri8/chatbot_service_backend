@@ -1,5 +1,5 @@
 const userModel = require('../models/user.model');
-const { getFormattedDateYYYYMMDD, getFormattedDateTime } = require('../utils/commonUtil');
+const { getCurrentFormattedDate, getCurrentFormattedDateTime } = require('../utils/commonUtil');
 const { generateToken } = require('../utils/jwtUtil');
 const { verifyPassword } = require('../utils/passwordUtil');
 const { setCache, getCache, deleteCache } = require('../utils/redisUtil');
@@ -35,7 +35,7 @@ const login = async (body) => {
         }, '7d')
 
         await setCache(user.id, {
-            loggedAt: getFormattedDateTime(), 
+            loggedAt: getCurrentFormattedDateTime(), 
         });
 
         return {
