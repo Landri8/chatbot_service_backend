@@ -104,9 +104,33 @@ const getBlogList = async (req, res) => {
     }
 }
 
+const getFAQList = async (req, res) => {
+    try {
+        const faqListData = await clientService.getFAQList();
+
+        sendResponse(res, 200, 'FAQ list fetched', faqListData);
+    } catch (e) {
+        sendResponse(res, 400, 'Failed', e.message);
+    }
+}
+
+const getBlogById = async (req, res) => {
+    try {
+        const id = req.params.id;
+        if (!id) throw new Error('Bad Request');
+        const blogData = await clientService.getBlogById(id);
+
+        sendResponse(res, 200, 'Blog info fetched successfully', blogData);
+    } catch (error) {
+        sendResponse(res, 400, 'Fetching blog info failed', error.message);
+    }
+}
+
 module.exports = {
     sendMessage,
     getVerificationCodeForEmail,
     verifyEmail,
-    getBlogList
+    getBlogList,
+    getBlogById,
+    getFAQList
 }

@@ -1,6 +1,6 @@
 const messageModel = require('../models/message.model');
-const { generateOTP } = require('../utils/commonUtil');
 const blogModel = require('../models/blog.model');
+const faqModel = require('../models/faq.model');
 
 const sendMessage = async (body) => {
     try {
@@ -25,7 +25,28 @@ const getBlogList = async () => {
     };
 }
 
+const getFAQList = async () => {
+    try {
+        const faqs = await faqModel.find({}, {_id: 0});
+        return faqs;
+    } catch (e) {
+        throw e;
+    }
+}
+
+const getBlogById = async (id) => {
+    try {
+        const blog = await blogModel.findOne({id: id}, {_id: 0});
+
+        return blog;
+    } catch (error) {
+        throw error;
+    };
+}
+
 module.exports = {
     sendMessage,
-    getBlogList
+    getBlogList,
+    getBlogById,
+    getFAQList
 }
