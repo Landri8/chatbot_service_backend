@@ -1,4 +1,5 @@
 const messageModel = require('../models/message.model');
+const { sendEmail } = require('../utils/mailUtil');
 
 const getMessageList = async () => {
     try {
@@ -55,9 +56,30 @@ const deleteMessage = async (body) => {
     }
 }
 
+const replyMessage = async (messageId, replyText) => {
+    try {
+        const message = await messageModel.findOne({id: messageId});
+        if (!message) {
+            throw new Error('Message not found');
+        }
+
+        await sendEmail(message.email, "Message Reply", replyText, "");
+        message.read = true;
+
+        await message.save();
+
+        return {
+            id: message.id,
+        };
+    } catch (e) {
+        throw e;
+    }
+}
+
 module.exports = {
     getMessageList,
     getMessageInfo,
     updateMessageToMarkRead,
-    deleteMessage
+    deleteMessage,
+    replyMessage
 }

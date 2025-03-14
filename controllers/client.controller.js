@@ -24,7 +24,7 @@ const sendMessage = async (req, res) => {
 
         const {error} = validator.validate(body);
 
-        sendEmail(body.email, "BlownMind AI: Message Received", "Thank you for reaching out to us. We will get back to you as soon as possible!", "");
+        sendEmail(body.email, "AI Solution: Message Received", "Thank you for reaching out to us. We will get back to you as soon as possible!", "");
 
         if (error) throw new Error("Bad Request")
         const messageData = clientService.sendMessage(body);
@@ -52,7 +52,7 @@ const getVerificationCodeForEmail = async (req, res) => {
         console.log("OTP:", OTP);
 
         setCache(`OTP${body.email}`, { otp: OTP, exp: convertDateTimeToYYYYMMDDHHMMSS(Date.now() + 300000) }); // 5 minutes
-        await sendEmail(body.email, "BlownMind AI: Email Verification", `Your verification code is ${OTP}, Only valid for 5 minutes.`, "");
+        await sendEmail(body.email, "AI Solution: Email Verification", `Your verification code is ${OTP}, Only valid for 5 minutes.`, "");
 
         sendResponse(res, 200, 'Email sent successfully', OTP);
     } catch (e) {

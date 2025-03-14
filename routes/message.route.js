@@ -6,6 +6,7 @@ const messageController = require('../controllers/message.controller');
 router.get('/', messageController.getMessageList);
 router.post('/markread', messageController.updateMessageToMarkRead);
 router.post('/delete', messageController.deleteMessage);
+router.post('/reply', messageController.replyMessage);
 router.get('/:id', messageController.getMessageInfo);
 
 module.exports = router;

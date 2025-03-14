@@ -51,9 +51,31 @@ const deleteMessage = async (req, res) => {
     }
 }
 
+const replyMessage = async (req, res) => {
+    try {
+        const body = req.body;
+
+        const validator = joi.object({
+            messageId: joi.string().required(),
+            replyText: joi.string().required(),
+        })
+
+        const { error } = validator.validate(body);
+        if (error) throw new Error(error.details[0].message);
+
+        const messageRepliedData = await messageService.replyMessage(body.messageId, body.replyText);
+
+        sendResponse(res, 200, 'Message Replied', messageRepliedData);
+    } catch (e) {
+        console.log(e)
+        sendResponse(res, 400, e.message, null);
+    }
+}
+
 module.exports = {
     getMessageList,
     updateMessageToMarkRead,
     getMessageInfo,
-    deleteMessage
+    deleteMessage,
+    replyMessage
 }
