@@ -40,9 +40,13 @@ const createUser = async (body) => {
             email: body.email,
             password: hashedPassword,
             role: body.role
-        }, {_id: 0, password: 0});
-        
-        return user;
+        });
+
+        // Remove password before returning
+        const userObject = user.toObject();
+        delete userObject.password;
+
+        return userObject;
     } catch (error) {
         throw error;
     }
