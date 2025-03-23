@@ -72,10 +72,22 @@ const replyMessage = async (req, res) => {
     }
 }
 
+const getMessageStatistics = async (req, res) => {
+    try {
+        const messageStatistics = await messageService.getMessageStatistics();
+
+        sendResponse(res, 200, 'Message statistics fetched', messageStatistics);
+    } catch (e) {
+        console.log(e)
+        sendResponse(res, 400, e.message, null);
+    }
+}
+
 module.exports = {
     getMessageList,
     updateMessageToMarkRead,
     getMessageInfo,
     deleteMessage,
-    replyMessage
+    replyMessage,
+    getMessageStatistics
 }
